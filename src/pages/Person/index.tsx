@@ -12,14 +12,18 @@ const Person: React.FC = () => {
   const limit = 5;
 	const [currentPage, setCurrentPage] = useState(1);
   const [personsData, setPersonsData] = useState([]);
-  
+  const [addedPersonId, setAddedPersonId] = useState(0);
+
   useEffect(() => {
     get_persons_per_page(limit, currentPage)
       .then((res) => {
-        console.log(res.data);
         setPersonsData(res.data)
       })
   }, [currentPage])
+
+  useEffect(() => {
+    console.log(addedPersonId);
+  }, [addedPersonId])
 
   const paginationCount = Math.ceil(persons.length/limit);
   
@@ -32,16 +36,13 @@ const Person: React.FC = () => {
   }
 
   const addNewPerson = () => {
-    const newPerson = {
-      id: '',
-      name: '',
-      email: '',
-      position: ''
-    };
-
-    add_new_person(newPerson)
+    add_new_person()
       .then((res) => {
-        console.log("res", res);
+        if(res.status === 201) {
+          personsData.push(res.data);
+          setAddedPersonId(res.data.id)
+          setPersonsData(personsData);
+        }
       })
   }
 

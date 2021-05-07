@@ -5,8 +5,8 @@ const get_persons_per_page = (limit, page): any => {
     return ApiHelper.get(`${baseUrl}/persons?limit=${limit}&page=${page}`)
 }
 
-const add_new_person = (data): any => {
-    return ApiHelper.post(`${baseUrl}/persons`, {data})
+const add_new_person = (): any => {
+    return ApiHelper.post(`${baseUrl}/persons`)
 }
 
 export {
