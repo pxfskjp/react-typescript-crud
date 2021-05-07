@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { get_persons_per_page } from '../helpers/personHelper';
+import { add_new_person } from '../helpers/personHelper';
 
 import { persons } from './persons';
 import { Container, Table, Pagination } from 'react-bootstrap';
@@ -7,36 +9,41 @@ import { BsType } from 'react-icons/bs';
 import { BsPlus } from 'react-icons/bs';
 
 const Person: React.FC = () => {
-  const showCount = 4;
-  const initalPersonData = persons.slice(0, showCount);
+  const limit = 5;
 	const [currentPage, setCurrentPage] = useState(1);
-  const [personsData, setPersonsData] = useState(initalPersonData);
-
-
+  const [personsData, setPersonsData] = useState([]);
+  
   useEffect(() => {
+    get_persons_per_page(limit, currentPage)
+      .then((res) => {
+        console.log(res.data);
+        setPersonsData(res.data)
+      })
+  }, [currentPage])
 
-  }, [currentPage, personsData])
-
-  const paginationCount = Math.ceil(persons.length/showCount);
+  const paginationCount = Math.ceil(persons.length/limit);
   
   const nextPage = () => {
-    const currentPersonData = currentPage < paginationCount ? 
-              persons.slice(currentPage * showCount, showCount * currentPage + showCount) :
-              persons.slice(showCount * (currentPage-1), persons.length);
-    
-    setPersonsData(currentPersonData);
     currentPage < paginationCount ? setCurrentPage(currentPage + 1) : setCurrentPage(paginationCount);
   }
 
   const previousPage = () => {
-    const currentPersonData = currentPage === 1 ? 
-              persons.slice(0, showCount) :
-              persons.slice((currentPage-2) * showCount, showCount * (currentPage-2) + showCount) ;
-    
-    setPersonsData(currentPersonData);
     currentPage !== 1 && setCurrentPage(currentPage - 1);
   }
-  
+
+  const addNewPerson = () => {
+    const newPerson = {
+      id: '',
+      name: '',
+      email: '',
+      position: ''
+    };
+
+    add_new_person(newPerson)
+      .then((res) => {
+        console.log("res", res);
+      })
+  }
 
 	return (
 		<>
@@ -44,7 +51,7 @@ const Person: React.FC = () => {
         <Table striped bordered hover size="sm">
           <thead>
             <tr>
-              <th><BsType></BsType>Name</th>
+              <th><BsType></BsType> Name</th>
               <th>@ Email</th>
               <th><BsTextLeft></BsTextLeft> Position</th>
             </tr>
@@ -63,10 +70,10 @@ const Person: React.FC = () => {
             }
           </tbody>
           <tfoot>
-            <tr>
-              <td><BsPlus></BsPlus> New</td>
-              <td></td>
-              <td></td>
+            <tr onClick={addNewPerson} style={{cursor: "pointer"}}>
+              <td style={{borderWidth: "1px 0px 1px 1px"}}><BsPlus></BsPlus> New</td>
+              <td style={{borderWidth: "1px 0px 1px 0px"}}></td>
+              <td style={{borderWidth: "1px 1px 1px 0"}}></td>
             </tr>
           </tfoot>
         </Table>
