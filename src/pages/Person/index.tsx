@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
-const Table = () => {
+import { Table } from 'react-bootstrap';
+
+const Person: React.FC = () => {
 	const [state, setState] = useState('');
 
 	useEffect(() => {
@@ -9,9 +11,11 @@ const Table = () => {
 
 	return (
 		<>
-				
+			<Table>
+        
+      </Table>
 		</>
 	)
 }
 
-export default Table;
+export default Person;
