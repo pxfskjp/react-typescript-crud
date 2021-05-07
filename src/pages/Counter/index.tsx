@@ -15,12 +15,10 @@ const Counter: React.FC = () => {
       <Container>
         <Card className="mt-5 m-auto" style={{width: '50%'}}>
           <Row>
-            <Card.Text className="text-center p-5">
-              <p className="h3 font-weight-bold">
-                {
-                  counter
-                }
-              </p>
+            <Card.Text className="text-center p-5 h3">
+              {
+                counter
+              }
             </Card.Text>
           </Row>
           <Row>
