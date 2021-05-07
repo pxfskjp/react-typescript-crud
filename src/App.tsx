@@ -3,6 +3,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { Container } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.css';
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 
 import Counter from './pages/Counter';
 import Person from './pages/Person';
