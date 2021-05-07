@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { get_persons_per_page } from '../helpers/personHelper';
 import { add_new_person } from '../helpers/personHelper';
+import { get_all_persons } from '../helpers/personHelper';
 
-import { persons } from './persons';
 import { Container, Table, Pagination } from 'react-bootstrap';
 import { BsTextLeft } from 'react-icons/bs';
 import { BsType } from 'react-icons/bs';
@@ -11,13 +11,19 @@ import { BsPlus } from 'react-icons/bs';
 const Person: React.FC = () => {
   const limit = 5;
 	const [currentPage, setCurrentPage] = useState(1);
+  const [totalPersonsData, setTotalPersonsData] = useState([]);
   const [personsData, setPersonsData] = useState([]);
   const [addedPersonId, setAddedPersonId] = useState(0);
 
   useEffect(() => {
     get_persons_per_page(limit, currentPage)
       .then((res) => {
-        setPersonsData(res.data)
+        setPersonsData(res.data);
+      })
+      
+    get_all_persons()
+      .then((res) => {
+        setTotalPersonsData(res.data);
       })
   }, [currentPage])
 
@@ -25,7 +31,7 @@ const Person: React.FC = () => {
     console.log(addedPersonId);
   }, [addedPersonId])
 
-  const paginationCount = Math.ceil(persons.length/limit);
+  const paginationCount = Math.ceil(totalPersonsData.length/limit);
   
   const nextPage = () => {
     currentPage < paginationCount ? setCurrentPage(currentPage + 1) : setCurrentPage(paginationCount);
