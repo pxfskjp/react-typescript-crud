@@ -1,4 +1,4 @@
-# HHG Case
+# Reac & TypeScript & MockAPI simple CRUD
 
 ## API
 https://60946848a7e53a0017952aac.mockapi.io/ap/v1/
